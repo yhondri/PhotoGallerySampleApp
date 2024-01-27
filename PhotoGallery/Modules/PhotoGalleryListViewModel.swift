@@ -1,30 +1,5 @@
 import SwiftUI
 
-enum PhotoState {
-    case downloaded
-    case missing
-}
-
-struct PhotoData {
-    let id: String
-    let photo: Photo
-    let photoCache: PhotoCache?
-    let photoState: PhotoState
-}
-
-extension PhotoData: Identifiable {}
-
-extension PhotoData: Hashable {
-    static func == (lhs: PhotoData, rhs: PhotoData) -> Bool {
-        lhs.photo.id == rhs.photo.id
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(photo.id)
-        hasher.combine(photoState)
-    }
-}
-
 @Observable class PhotoGalleryListViewModel {
 
     private var photosRepository: PhotosRepository?

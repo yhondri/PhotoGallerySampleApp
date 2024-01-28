@@ -22,6 +22,7 @@ struct PhotoGalleryListView: View {
             .listStyle(.plain)
             .navigationTitle("Photo Gallery List")
         }
+        .accessibility(identifier: "PhotoGalleryListview")
         .environment(viewModel)
         .onAppear {
             viewModel.loadNextPage()
@@ -47,6 +48,7 @@ struct PhotoGalleryListView: View {
             }
             Text(photo.photo.photoDescription ?? "No description")
         }
+        .accessibility(identifier: "PhotoRowView")
         .onAppear {
             viewModel.downloadImage(photo: photo)
         }

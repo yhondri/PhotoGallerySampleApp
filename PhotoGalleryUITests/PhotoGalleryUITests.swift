@@ -1,41 +1,70 @@
-//
-//  PhotoGalleryUITests.swift
-//  PhotoGalleryUITests
-//
-//  Created by Yhondri Acosta Novas on 27/1/24.
-//
-
 import XCTest
 
 final class PhotoGalleryUITests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
-        continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+    private var app: XCUIApplication!
+    
+    override func setUp() {
+        app = XCUIApplication()
+    }
+    
+    override func tearDown() {
+        app = nil
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
+    private func givenAppLaunched() {
         app.launch()
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
-
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
+    
+    func testNavigationBarTitleIsDisplayed() {
+        givenAppLaunched()
+        
+        let element = app.navigationBars["Photo Gallery List"].staticTexts["Photo Gallery List"]
+        let exist = element.waitForExistence(timeout: 5)
+        
+        XCTAssertTrue(exist)
+    }
+   
+    func testViewLoadFirstPageWith10Photos() {
+        givenAppLaunched()
+        XCTAssertTrue(app.collectionViews.cells.count > 0, "There should be photos")
+    }
+   
+    func testLoadMorePhotos() {
+        givenAppLaunched()
+        
+        let tableViewsQuery = app.collectionViews
+        whenSwipeToTheEndOfTheList(collectionViewsQuery: tableViewsQuery)
+        let loadMoreButton = tableViewsQuery.buttons["Load More"]
+        
+        XCTAssert(loadMoreButton.exists)
+        
+        tapLoadMoreButton(tableViewsQuery: tableViewsQuery)
+        whenSwipeToTheEndOfTheList(collectionViewsQuery: tableViewsQuery)
+        tapLoadMoreButton(tableViewsQuery: tableViewsQuery)
+    }
+    
+    /// There are 3 pages and 10 items per page.
+    func testLoadMoreButtonIsNotShownWhenAllAvailablePagesHasBeenLoaded() {
+        givenAppLaunched()
+        
+        let tableViewsQuery = app.collectionViews
+        whenSwipeToTheEndOfTheList(collectionViewsQuery: tableViewsQuery)
+        tapLoadMoreButton(tableViewsQuery: tableViewsQuery)
+        whenSwipeToTheEndOfTheList(collectionViewsQuery: tableViewsQuery)
+        tapLoadMoreButton(tableViewsQuery: tableViewsQuery)
+        whenSwipeToTheEndOfTheList(collectionViewsQuery: tableViewsQuery)
+        
+        let loadMoreButton = tableViewsQuery.buttons["Load More"]
+        XCTAssertFalse(loadMoreButton.exists)
+    }
+    
+    private func whenSwipeToTheEndOfTheList(collectionViewsQuery: XCUIElementQuery) {
+        for _ in 0..<3 {
+            collectionViewsQuery.children(matching: .cell).element(boundBy: 2).swipeUp()
         }
+    }
+    
+    private func tapLoadMoreButton(tableViewsQuery: XCUIElementQuery) {
+        tableViewsQuery/*@START_MENU_TOKEN@*/.buttons["Load More"]/*[[".cells.buttons[\"Load More\"]",".buttons[\"Load More\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
     }
 }

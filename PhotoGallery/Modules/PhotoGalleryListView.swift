@@ -20,7 +20,7 @@ struct PhotoGalleryListView: View {
                 }
             }
             .listStyle(.plain)
-            .navigationTitle("List Photo gallery")
+            .navigationTitle("Photo Gallery List")
         }
         .environment(viewModel)
         .onAppear {

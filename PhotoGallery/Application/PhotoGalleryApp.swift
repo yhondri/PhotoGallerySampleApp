@@ -13,7 +13,15 @@ struct PhotoGalleryApp: App {
     
     var body: some Scene {
         WindowGroup {
-            PhotoGalleryListView(photosDIContainer: defaultPhotosDIContainer)
+            NavigationStack {
+                NavigationLink("Show SwiftUI Sample") {
+                    PhotoGalleryListView(photosDIContainer: defaultPhotosDIContainer)
+                }
+                .padding(.bottom)
+                NavigationLink("Show UIKit Sample") {
+                    PhotoGalleryUIKitView(photosDIContainer: defaultPhotosDIContainer)
+                }
+            }
         }
     }
 }

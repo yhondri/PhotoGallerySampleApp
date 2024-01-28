@@ -1,5 +1,9 @@
 # PhotoGallery
 
+<p align="row">
+<img src= "https://github.com/yhondri/PhotoGallerySampleApp/blob/main/sample_app_screenshots/PhotoGallery.png?raw=true" width="200" height="300" >
+</p>
+
 ## About The Project
 
 PhotoGalley is an iOS app written in Swift and using the MVVM architecture. 

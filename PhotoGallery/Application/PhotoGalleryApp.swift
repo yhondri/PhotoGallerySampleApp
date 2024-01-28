@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct PhotoGalleryApp: App {
+    private let defaultPhotosDIContainer = DefaultPhotosDIContainer()
+    
     var body: some Scene {
         WindowGroup {
-            PhotoGalleryListView(photosDIContainer: DefaultPhotosDIContainer())
+            PhotoGalleryListView(photosDIContainer: defaultPhotosDIContainer)
         }
     }
 }

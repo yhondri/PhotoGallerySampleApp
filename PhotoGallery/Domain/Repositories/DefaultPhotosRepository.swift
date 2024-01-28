@@ -11,6 +11,8 @@ class DefaultPhotosRepository: PhotosRepository {
         self.imageDownloadService = imageDownloadService
     }
     
+    private var pageCounter = 0
+    
     func fetchPhotos(page: Int) async throws -> Result<PhotoPage, Error> {
         let photosDTO = PhotosRequestDTO(page: page)
         let result: Result<[PhotosResponseDTO], Error> = try await imageDownloadService.fetchImages(requestDTO: photosDTO)

@@ -6,6 +6,7 @@ protocol PhotosDIContainer {
 
 final class DefaultPhotosDIContainer: PhotosDIContainer {
     private let imageDownloadService: ImageDownloadService
+    
     init(imageDownloadService: ImageDownloadService = DefaultImageDownloadService()) {
         self.imageDownloadService = imageDownloadService
     }

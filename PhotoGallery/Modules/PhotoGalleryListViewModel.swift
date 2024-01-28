@@ -1,26 +1,26 @@
 import SwiftUI
 
 @Observable class PhotoGalleryListViewModel {
-
-    private var photosRepository: PhotosRepository?
-    private(set) var currentPage: Int = 0
-    private(set) var totalPageCount: Int = 1
+    
     var hasMorePages: Bool { currentPage < totalPageCount }
     var nextPage: Int { hasMorePages ? currentPage + 1 : currentPage }
-    
     private(set) var photos: [PhotoData] = []
+    private var currentPage: Int = 0
+    private var totalPageCount: Int = 1
+    private var didMakeFirstPageCall = false
+    private var photosRepository: PhotosRepository?
     
     func setDIContainer(_ photosDIContainer: PhotosDIContainer) {
         self.photosRepository = photosDIContainer.makePhotosRepository()
     }
     
-    func loadNextPage() {
+    func loadNextPage(completion: (() -> Void)? = nil) {
         Task {
             do {
-                let result = try await photosRepository?.fetchPhotos(page: self.nextPage)
+                let result = try await photosRepository?.fetchPhotos(page: nextPage)
                 switch result {
                 case .success(let photoPage):
-                    await updatePhotos(photoPage.photos)
+                    await appendPage(photoPage)
                 case .failure(let error):
                     debugPrint("Error loading photos ", error)
                 case .none:
@@ -29,10 +29,13 @@ import SwiftUI
             } catch {
                 debugPrint("Error loading photos ", error)
             }
+            
+            completion?()
         }
     }
     
-    private func updatePhotos(_ newPhotos: [Photo]) async {
+    private func appendPage(_ photoPage: PhotoPage) async {
+        let newPhotos = photoPage.photos
         await MainActor.run {
             let photoDatas: [PhotoData] = newPhotos.map { photo in
                 PhotoData(id: photo.id,
@@ -41,17 +44,21 @@ import SwiftUI
                           photoState: .missing)
             }
             photos.append(contentsOf: photoDatas)
+            currentPage = photoPage.page
+            totalPageCount = photoPage.totalPages
         }
     }
     
-    func downloadImage(photo: PhotoData) {
+    func downloadImage(photo: PhotoData, completion: (() -> Void)? = nil) {
         Task {
             do {
                 let result = try await photosRepository?.fetchImage(imageUrlString: photo.photo.urls.thumb)
                 await onDidDownloadImage(image: result, photo: photo)
             } catch {
-                
+                debugPrint("Error loading images")
             }
+            
+            completion?()
         }
     }
     

@@ -11,9 +11,9 @@ PhotoGalley is an iOS app written in Swift and using the MVVM architecture.
 - MVVM stands for “Model View ViewModel”, and it’s a software architecture that facilitates the separation of the development of the graphical user interface from the development of the business logic or back-end logic (the model) such that the view is not dependent upon any specific model platform.
 
 - The project is separated in 3 parts:
--- SwiftUI: Contains the UI of the SwiftUI sample. 
--- UIKit: Contains the UI of the UIKit sample. 
--- Shared: Contains the shared components of both UI. 
+- SwiftUI: Contains the UI of the SwiftUI sample. 
+- UIKit: Contains the UI of the UIKit sample. 
+- Shared: Contains the shared components of both UI. 
 
 ## Shared
 - Contains components of the domain layer like uses cases, entities etc... 

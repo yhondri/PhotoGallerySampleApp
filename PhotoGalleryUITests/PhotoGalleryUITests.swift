@@ -10,10 +10,6 @@ final class PhotoGalleryUITests: XCTestCase {
     override func tearDown() {
         app = nil
     }
-
-    private func givenAppLaunched() {
-        app.launch()
-    }
     
     func testNavigationBarTitleIsDisplayed() {
         givenAppLaunched()
@@ -22,6 +18,11 @@ final class PhotoGalleryUITests: XCTestCase {
         let exist = element.waitForExistence(timeout: 5)
         
         XCTAssertTrue(exist)
+    }
+    
+    private func givenAppLaunched() {
+        app.launch()
+        app.buttons["Show SwiftUI Sample"].tap()
     }
    
     func testViewLoadFirstPageWith10Photos() {

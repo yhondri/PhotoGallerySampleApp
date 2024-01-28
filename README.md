@@ -1,7 +1,7 @@
 # PhotoGallery
 
 <p align="row">
-<img src= "https://github.com/yhondri/PhotoGallerySampleApp/blob/main/sample_app_screenshots/PhotoGallery.png?raw=true" width="200" height="300" >
+<img src= "https://github.com/yhondri/PhotoGallerySampleApp/blob/main/sample_app_screenshots/PhotoGallery.png?raw=true" width="200" height="350" >
 </p>
 
 ## About The Project
@@ -36,7 +36,7 @@ Just download the project and open the PhotoGallery.xcodeproj.
 ## Usage
 - Run the xcodeproj with a Simulator or Real device. 
 - Choose the sample you want to check. 
--- Select "Show SwiftUI Sample" if you want to test the SwiftUI sample.
--- Select "Show UIKit Sample" if you want to test the UIKit sample. 
+- Select "Show SwiftUI Sample" if you want to test the SwiftUI sample.
+- Select "Show UIKit Sample" if you want to test the UIKit sample. 
 - After you select the sample you'll see a photoGallery. 
 It contains a "Load More" buttons to load more photos (you can load 2 more pages right now).

@@ -1,10 +1,3 @@
-//
-//  PhotoData+Extension.swift
-//  PhotoGalleryTests
-//
-//  Created by Yhondri Acosta Novas on 28/1/24.
-//
-
 @testable import PhotoGallery
 
 extension PhotoData {
